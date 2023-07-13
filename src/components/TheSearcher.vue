@@ -43,7 +43,7 @@ watch(country, () => {
       type="text"
       name="search"
       id="seach"
-      placeholder="ChatGPT como usar..."
+      :placeholder="country === 'br' ? 'ChatGPT como usar...' : 'How to use ChatGPT'"
       class="border p-4 text-lg text-slate-900 rounded-md w-full md:w-1/3"
     />
   </label>

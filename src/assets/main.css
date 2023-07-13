@@ -16,12 +16,20 @@
   opacity: 0;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
+.list-enter-active {
+  animation: fade-in 0.5s ease-in-out;
 }
 
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+.list-leave-active {
+  animation: fade-in 0.5s ease-in-out reverse;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }

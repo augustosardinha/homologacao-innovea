@@ -34,7 +34,7 @@ onMounted(() => getTopHeadlines())
       <TheSearcher />
 
       <TransitionGroup
-        name="fade"
+        name="list"
         mode="out-in"
         class="flex flex-wrap justify-center items-center gap-4"
         tag="section"
@@ -48,7 +48,21 @@ onMounted(() => getTopHeadlines())
           class="!gap-4"
         />
         <template v-else>
-          <TheCard v-for="article in articlesStore.articles" :key="article.id" v-bind="article" />
+          <div
+            v-if="!articlesStore.articles.length"
+            class="text-2xl bg-slate-400 dark:bg-stone-950 text-gray-200 font-bold p-8 rounded-lg"
+          >
+            {{
+              articlesStore.country === 'br' ? 'Nenhum resultado encontrado' : 'No results found'
+            }}
+          </div>
+
+          <TheCard
+            v-else
+            v-for="article in articlesStore.articles"
+            :key="article.id"
+            v-bind="article"
+          />
         </template>
       </TransitionGroup>
     </main>
