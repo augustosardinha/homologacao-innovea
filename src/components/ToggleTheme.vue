@@ -8,8 +8,8 @@ const toggleTheme = useToggle(isDark)
 </script>
 
 <template>
-  <button @click="toggleTheme()">
-    <Transition name="slide-fade" mode="out-in" :duration="150">
+  <button @click="toggleTheme()" title="Toggle theme">
+    <Transition name="slide-fade" mode="out-in" :duration="150" appear>
       <component :is="isDark ? MoonIcon : SunIcon" />
     </Transition>
   </button>

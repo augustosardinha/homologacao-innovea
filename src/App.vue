@@ -27,17 +27,18 @@ onMounted(() => getTopHeadlines())
 </script>
 
 <template>
-  <div class="bg-zinc-900 min-h-screen w-full">
+  <div class="bg-slate-300 dark:bg-zinc-900 min-h-screen w-full">
     <TheHeader />
 
     <main class="container flex flex-col gap-8 mx-auto p-8">
       <TheSearcher />
 
       <TransitionGroup
-        name="list"
+        name="fade"
         mode="out-in"
         class="flex flex-wrap justify-center items-center gap-4"
         tag="section"
+        appear
       >
         <SkeletonLoading
           v-if="articlesStore.isLoading"

@@ -29,7 +29,7 @@ const searchArticles = async (query: string) => {
   articlesStore.updateArticles(newArticles)
 }
 
-watchThrottled(search, () => searchArticles(search.value), { throttle: 500 })
+watchThrottled(search, () => searchArticles(search.value), { throttle: 1500 })
 
 watch(country, () => {
   searchArticles(search.value)
@@ -37,14 +37,14 @@ watch(country, () => {
 </script>
 
 <template>
-  <label class="text-white text-xl flex justify-center items-center gap-4">
-    Search
+  <label class="text-2xl flex justify-center items-center gap-4">
     <input
       v-model="search"
       type="text"
       name="search"
       id="seach"
-      class="border p-4 text-lg text-gray-900"
+      placeholder="ChatGPT como usar..."
+      class="border p-4 text-lg text-slate-900 rounded-md w-full md:w-1/3"
     />
   </label>
 </template>

@@ -18,8 +18,8 @@ watchEffect(() => {
 </script>
 
 <template>
-  <button @click="toggleCountry()">
-    <Transition name="slide-fade" mode="out-in" :duration="150">
+  <button @click="toggleCountry()" title="Toggle Country">
+    <Transition name="slide-fade" mode="out-in" :duration="150" appear>
       <component :is="country === 'br' ? BrazilFlag : USFlag" />
     </Transition>
   </button>

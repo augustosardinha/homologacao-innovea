@@ -6,7 +6,7 @@ const props = defineProps<INewsApiArticle>()
 
 <template>
   <article
-    class="self-start flex flex-col gap-10 max-w-lg bg-zinc-800 rounded-lg p-8 h-full hover:scale-[1.02] transition-all duration-300"
+    class="self-start flex flex-col gap-10 max-w-lg bg-slate-600 dark:bg-zinc-800 rounded-lg p-8 h-full hover:scale-[1.01] transition-all duration-300"
   >
     <header class="flex gap-4 justify-between relative">
       <hgroup class="flex flex-col gap-2 text-gray-100">
@@ -15,13 +15,13 @@ const props = defineProps<INewsApiArticle>()
       </hgroup>
       <div
         v-if="props?.source?.name"
-        class="flex items-center justify-center absolute right-0 bottom-0 text-white font-semibold bg-blue-500 px-3 rounded-full"
+        class="flex items-center justify-center absolute right-0 bottom-0 text-gray-200 font-semibold px-3 rounded-full bg-gradient-to-r from-sky-500 to-indigo-500 dark:from-indigo-700 dark:to-blue-700"
       >
         {{ props?.source?.name }}
       </div>
     </header>
 
-    <p v-if="props.description">
+    <p v-if="props.description" class="font-semibold text-gray-300">
       {{ props.description }}
     </p>
 
@@ -29,7 +29,7 @@ const props = defineProps<INewsApiArticle>()
       <a
         :href="props.url"
         target="_blank"
-        class="bg-purple-700 py-2 px-4 text-white font-medium text-base"
+        class="bg-blue-500 dark:bg-purple-700 py-2 px-4 rounded-sm text-gray-200 font-medium text-base hover:bg-opacity-70 transition-all duration-500"
       >
         Veja mais
       </a>
