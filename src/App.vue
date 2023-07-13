@@ -51,6 +51,7 @@ onMounted(() => getTopHeadlines())
           <div
             v-if="!articlesStore.articles.length"
             class="text-2xl bg-slate-400 dark:bg-stone-950 text-gray-200 font-bold p-8 rounded-lg"
+            data-testid="not_found"
           >
             {{
               articlesStore.country === 'br' ? 'Nenhum resultado encontrado' : 'No results found'
