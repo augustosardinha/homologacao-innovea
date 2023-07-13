@@ -18,3 +18,5 @@ export interface INewsApiResource {
   totalResults: number
   articles: INewsApiArticle[]
 }
+
+export type ArticleCountries = 'br' | 'us'

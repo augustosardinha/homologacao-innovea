@@ -1,13 +1,11 @@
-import type { INewsApiArticle } from '@/interfaces/news-api.dto'
+import type { ArticleCountries, INewsApiArticle } from '@/interfaces/news-api.dto'
 import { reactive } from 'vue'
-
-type ArticlesLanguages = 'br' | 'en'
 
 export const articlesStore = reactive({
   articles: [] as INewsApiArticle[],
   isLoading: false,
-  pageSize: 2,
-  language: 'br' as ArticlesLanguages,
+  pageSize: 5,
+  country: 'br' as ArticleCountries,
   updateArticles(newArticles: INewsApiArticle[]) {
     this.articles = newArticles
   }

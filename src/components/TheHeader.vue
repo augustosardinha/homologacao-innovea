@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import ToggleTheme from './ToggleTheme.vue'
+import ToggleCountry from '@/components/ToggleCountry.vue'
+import ToggleTheme from '@/components/ToggleTheme.vue'
 </script>
 
 <template>
@@ -12,6 +13,7 @@ import ToggleTheme from './ToggleTheme.vue'
       News
     </a>
 
+    <ToggleCountry />
     <ToggleTheme />
   </header>
 </template>

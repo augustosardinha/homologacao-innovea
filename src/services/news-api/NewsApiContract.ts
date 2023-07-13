@@ -1,6 +1,10 @@
-import type { INewsApiArticle } from '@/interfaces/news-api.dto'
+import type { ArticleCountries, INewsApiArticle } from '@/interfaces/news-api.dto'
 
 export interface INewsApiContract {
-  getTopArticles: (articlesPageSize: number) => Promise<INewsApiArticle[] | []>
-  searchArticles: (query: string, articlesPageSize: number) => Promise<INewsApiArticle[] | []>
+  getTopArticles: (pageSize: number, country: ArticleCountries) => Promise<INewsApiArticle[] | []>
+  searchArticles: (
+    query: string,
+    pageSize: number,
+    country: ArticleCountries
+  ) => Promise<INewsApiArticle[] | []>
 }

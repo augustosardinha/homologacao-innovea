@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { NewsApiService } from '@/services'
 import { ref, watch } from 'vue'
-import type { INewsApiArticle } from '@/interfaces/news-api.dto'
+import { useStorage, watchThrottled } from '@vueuse/core'
+import { NewsApiService } from '@/services'
 import { articlesStore } from '@/store/article'
+import type { INewsApiArticle } from '@/interfaces/news-api.dto'
 
 const search = ref('')
+
+const country = useStorage('user-country', 'br')
 
 const searchArticles = async (query: string) => {
   let newArticles: INewsApiArticle[] | []
@@ -12,9 +15,13 @@ const searchArticles = async (query: string) => {
   articlesStore.isLoading = true
 
   if (!query.length) {
-    newArticles = await NewsApiService.getTopArticles(articlesStore.pageSize)
+    newArticles = await NewsApiService.getTopArticles(articlesStore.pageSize, articlesStore.country)
   } else {
-    newArticles = await NewsApiService.searchArticles(query, articlesStore.pageSize)
+    newArticles = await NewsApiService.searchArticles(
+      query,
+      articlesStore.pageSize,
+      articlesStore.country
+    )
   }
 
   articlesStore.isLoading = false
@@ -22,7 +29,11 @@ const searchArticles = async (query: string) => {
   articlesStore.updateArticles(newArticles)
 }
 
-watch(search, () => searchArticles(search.value))
+watchThrottled(search, () => searchArticles(search.value), { throttle: 500 })
+
+watch(country, () => {
+  searchArticles(search.value)
+})
 </script>
 
 <template>

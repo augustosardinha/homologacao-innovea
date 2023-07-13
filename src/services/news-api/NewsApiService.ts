@@ -1,14 +1,17 @@
 import type { INewsApiContract } from '@/services/news-api/NewsApiContract'
 import { HttpService } from '@/services/HttpService'
-import type { INewsApiArticle, INewsApiResource } from '@/interfaces/news-api.dto'
+import type { ArticleCountries, INewsApiArticle, INewsApiResource } from '@/interfaces/news-api.dto'
 
 export class NewsApiService extends HttpService implements INewsApiContract {
-  public async getTopArticles(articlesPageSize = 5): Promise<INewsApiArticle[] | []> {
+  public async getTopArticles(
+    pageSize = 5,
+    country: ArticleCountries = 'br'
+  ): Promise<INewsApiArticle[] | []> {
     try {
       const { data: newsApiResource } = await this.get<INewsApiResource>('/top-headlines', {
         params: {
-          country: 'br',
-          pageSize: articlesPageSize
+          country,
+          pageSize
         }
       })
       return this.formatArticles(newsApiResource.articles)
@@ -19,13 +22,15 @@ export class NewsApiService extends HttpService implements INewsApiContract {
 
   public async searchArticles(
     query: string,
-    articlesPageSize?: number
+    pageSize?: number,
+    country: ArticleCountries = 'br'
   ): Promise<INewsApiArticle[] | []> {
     try {
       const { data: newsApiResource } = await this.get<INewsApiResource>('/everything', {
         params: {
           q: query,
-          pageSize: articlesPageSize
+          pageSize,
+          language: this.getArticleLanguage(country)
         }
       })
       return this.formatArticles(newsApiResource.articles)
@@ -35,6 +40,16 @@ export class NewsApiService extends HttpService implements INewsApiContract {
   }
 
   private formatArticles(articles: INewsApiArticle[]) {
-    return articles.map((article) => ({ ...article, id: window.crypto.randomUUID() }))
+    return articles.map((article) => {
+      return {
+        ...article,
+        author: article.author ? article.author : '----',
+        id: window.crypto.randomUUID()
+      }
+    })
+  }
+
+  private getArticleLanguage(country: ArticleCountries = 'br') {
+    return country === 'br' ? 'pt' : 'en'
   }
 }

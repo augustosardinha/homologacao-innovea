@@ -13,7 +13,11 @@ import { articlesStore } from '@/store/article'
 const getTopHeadlines = async () => {
   articlesStore.isLoading = true
 
-  const newArticles = await NewsApiService.getTopArticles(articlesStore.pageSize)
+  const newArticles = await NewsApiService.getTopArticles(
+    articlesStore.pageSize,
+    articlesStore.country
+  )
+
   articlesStore.updateArticles(newArticles)
 
   articlesStore.isLoading = false
