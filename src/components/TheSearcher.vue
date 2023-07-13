@@ -1,26 +1,28 @@
 <script setup lang="ts">
 import { NewsApiService } from '@/services'
-import { ARTICLES_KEY } from '@/constants/article'
-import { ref, watch, inject } from 'vue'
-import type { IArticlesProvider } from '@/interfaces/provider'
+import { ref, watch } from 'vue'
 import type { INewsApiArticle } from '@/interfaces/news-api.dto'
-
-const { articlesPageSize, updateArticles } = inject(ARTICLES_KEY) as IArticlesProvider
+import { articlesStore } from '@/store/article'
 
 const search = ref('')
 
 const searchArticles = async (query: string) => {
   let newArticles: INewsApiArticle[] | []
 
+  articlesStore.isLoading = true
+
   if (!query.length) {
-    newArticles = await NewsApiService.getTopArticles(articlesPageSize)
+    newArticles = await NewsApiService.getTopArticles(articlesStore.pageSize)
   } else {
-    newArticles = await NewsApiService.searchArticles(query, articlesPageSize)
+    newArticles = await NewsApiService.searchArticles(query, articlesStore.pageSize)
   }
-  updateArticles(newArticles)
+
+  articlesStore.isLoading = false
+
+  articlesStore.updateArticles(newArticles)
 }
 
-watch(search, () => searchArticles(search.value), {})
+watch(search, () => searchArticles(search.value))
 </script>
 
 <template>

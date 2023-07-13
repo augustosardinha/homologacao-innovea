@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, provide } from 'vue'
+import { onMounted } from 'vue'
 
 import TheHeader from '@/components/TheHeader.vue'
 import TheCard from '@/components/TheCard.vue'
@@ -7,34 +7,17 @@ import TheSearcher from '@/components/TheSearcher.vue'
 import SkeletonLoading from '@/components/SkeletonLoading.vue'
 
 import { NewsApiService } from '@/services'
-import { ARTICLES_KEY } from '@/constants/article'
 
-import type { INewsApiArticle } from '@/interfaces/news-api.dto'
-import type { IArticlesProvider } from '@/interfaces/provider'
-
-const articles = ref<INewsApiArticle[]>([])
-const isArticlesLoading = ref(false)
-
-const articlesPageSize = 2
+import { articlesStore } from '@/store/article'
 
 const getTopHeadlines = async () => {
-  isArticlesLoading.value = true
+  articlesStore.isLoading = true
 
-  const newArticles = await NewsApiService.getTopArticles(articlesPageSize)
-  updateArticles(newArticles)
+  const newArticles = await NewsApiService.getTopArticles(articlesStore.pageSize)
+  articlesStore.updateArticles(newArticles)
 
-  isArticlesLoading.value = false
+  articlesStore.isLoading = false
 }
-
-const updateArticles = (newArticles: INewsApiArticle[] | []) => {
-  articles.value = newArticles
-}
-
-provide<IArticlesProvider>(ARTICLES_KEY, {
-  articles,
-  articlesPageSize,
-  updateArticles
-})
 
 onMounted(() => getTopHeadlines())
 </script>
@@ -53,19 +36,14 @@ onMounted(() => getTopHeadlines())
         tag="section"
       >
         <SkeletonLoading
-          v-if="isArticlesLoading"
+          v-if="articlesStore.isLoading"
           width="500"
           height="200"
-          :count="articlesPageSize"
+          :count="articlesStore.pageSize"
           class="!gap-4"
         />
         <template v-else>
-          <TheCard
-            v-for="article in articles"
-            :key="article.id"
-            v-bind="article"
-            @update:articles="(newArticles) => (articles = newArticles)"
-          />
+          <TheCard v-for="article in articlesStore.articles" :key="article.id" v-bind="article" />
         </template>
       </TransitionGroup>
     </main>
